@@ -7,7 +7,7 @@ const Header = (props) => {
   console.log(props);
   return(
     <React.Fragment>
-      <SearchForm onSearch={props.performSearch} data={props.data} />
+      <SearchForm onSearch={props.onSearch} data={props.data} />
       <Nav />
     </React.Fragment>
   );
