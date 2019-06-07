@@ -2,10 +2,12 @@ import React from 'react';
 import SearchForm from './SearchForm';
 import Nav from './Nav';
 
-const Header = () => {
+const Header = (props) => {
+//onSearch={props.performSearch} data={props.data}
+  console.log(props);
   return(
     <React.Fragment>
-      <SearchForm />
+      <SearchForm onSearch={props.performSearch} data={props.data} />
       <Nav />
     </React.Fragment>
   );
