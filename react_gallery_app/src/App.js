@@ -18,10 +18,12 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.performSearch();
+    this.performSearch('cats');
+    this.performSearch('dogs');
+    this.performSearch('computers');
   }
 
-  performSearch = (query = 'dogs') => {
+  performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
@@ -35,15 +37,18 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <Header onSearch={this.performSearch} />
-          <PhotoGallery data={this.state.photos}/>
+          <Header
+            onSearch={this.performSearch}
+            onClick={this.performSearch}
+          />
+          {/*<PhotoGallery data={this.state.photos}/>*/}
           <Switch>
-          { /*  <Route exact path='/' render={ () => <PhotoGallery data={this.state.photos}/>}/>
-           <Route path='/cats' render={ () => <PhotoGallery /> }/>
-            <Route path='/dogs' render={ () => <PhotoGallery /> }/>
-            <Route path='/computers' render={ () => <PhotoGallery /> }/>
-            <Route path='/search' component={ <PhotoGallery /> }/>
-            <Route component={NoResults} />*/}
+            <Route path='/search/:searchText' render={ () => <PhotoGallery data={this.state.photos}/>} />
+            <Route path='/cats' render={ () => <PhotoGallery onClick={this.performSearch('cats')} data={this.state.photos}/>} />
+            <Route path='/dogs' render={ () => <PhotoGallery  onClick={this.performSearch('dogs')} data={this.state.photos}/>} />
+            <Route path='/computers' render={ () => <PhotoGallery  onClick={this.performSearch('computers')} data={this.state.photos}/>} />
+
+            <Route component={NoResults} />
           </Switch>
 
         </div>

@@ -4,11 +4,10 @@ import Nav from './Nav';
 
 const Header = (props) => {
 //onSearch={props.performSearch} data={props.data}
-  console.log(props);
   return(
     <React.Fragment>
       <SearchForm onSearch={props.onSearch} data={props.data} />
-      <Nav />
+      <Nav onClick={props.onClick} data={props.data} />
     </React.Fragment>
   );
 }
