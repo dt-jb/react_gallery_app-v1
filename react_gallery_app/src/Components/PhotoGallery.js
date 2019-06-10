@@ -7,7 +7,6 @@ const PhotoGallery = props => {
   let photos;
   if(results.length > 0){
     photos = results.map( photo => <Photo url={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`} key={photo.id} /> );
-    console.log(photos);
       /*url={path to photo resource in flickr api photo object} key={id value}*/
   } else {
     photos = <NoResults />
