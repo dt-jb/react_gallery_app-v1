@@ -1,39 +1,41 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import logo from './logo.svg';
 import './App.css';
 import apiKey from './config';
 import Header from './Components/Header';
 import PhotoGallery from './Components/PhotoGallery';
-import NoResults from './Components/NoResults';
+import NotFound from './Components/NotFound';
 
 class App extends Component {
 
   constructor(){
     super();
     this.state = {
-      photos: []
+      photos: [],
+      loading: true
     };
   }
 
+  /*performs initial search to have content loaded upon app launch
+  (default search is 'nature', declared in performSearch arg)*/
   componentDidMount(){
     this.performSearch();
-    //this.performSearch('cats');
-    //this.performSearch('dogs');
-    //this.performSearch('computers');
   }
 
-  performSearch = (query = 'cats') => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
+  //data fetching
+  performSearch = (query = 'nature') => {
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&safe_search=1&per_page=24&format=json&nojsoncallback=1`)
       .then(response => {
         this.setState({
-          photos: response.data.photos.photo
+          photos: response.data.photos.photo,
+          loading: false
         });
       })
       .catch(error => console.log('Error fetching data', error));
   }
 
+  /*renders header(nav, search) and then uses a switch to render the body based on nav links or search*/
   render() {
     return (
       <BrowserRouter>
@@ -42,17 +44,18 @@ class App extends Component {
             onSearch={this.performSearch}
             onClick={this.performSearch}
           />
-          {/*<PhotoGallery data={this.state.photos}/>*/}
-          <Switch>
-            <Route exact path='/' render={ () => <PhotoGallery data={this.state.photos}/>} />
-            <Route path='/search/:searchText' render={ () => <PhotoGallery data={this.state.photos}/>} />
-            <Route path='/cats' render={ () => <PhotoGallery  onClick={this.performSearch('cats')} data={this.state.photos}/>} />
-            <Route path='/dogs' render={ () => <PhotoGallery  onClick={this.performSearch('dogs')} data={this.state.photos}/>} />
-            <Route path='/computers' render={ () => <PhotoGallery  onClick={this.performSearch('computers')} data={this.state.photos}/>} />
-
-            <Route component={NoResults} />
-          </Switch>
-
+          {
+            (this.state.loading)
+              ? <h2>Loading...</h2>
+              : <Switch>
+                  <Route exact path='/' render={ () => <PhotoGallery data={this.state.photos}/>} />
+                  <Route path='/search' render={ () => <PhotoGallery data={this.state.photos}/>} />
+                  <Route path='/landscapes' render={ () => <PhotoGallery  onClick={this.performSearch('landscapes')} data={this.state.photos}/>} />
+                  <Route path='/cityscapes' render={ () => <PhotoGallery  onClick={this.performSearch('cityscapes')} data={this.state.photos}/>} />
+                  <Route path='/seascapes' render={ () => <PhotoGallery  onClick={this.performSearch('seascapes')} data={this.state.photos}/>} />
+                  <Route component={NotFound} />
+                </Switch>
+          }
         </div>
       </BrowserRouter>
     );
