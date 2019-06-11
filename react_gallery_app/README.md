@@ -1,3 +1,15 @@
+
+I am attempting to obtain an evaluation of exceeds expectations on this project.
+
+The project was the most challenging one to date.  I had challenges with the search routing- having the url update with the search terms was a challenge for me.  In general I had a lot of trip ups with the props being handled in the child components, but I believe I've got a much better understanding now.
+
+If you see anything out of order or done in an odd or inefficient way, please don't hesitate to point it out.  I welcome all criticism/critiques.
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
